@@ -1,40 +1,44 @@
-import React, { memo, forwardRef } from 'react';
-import clsx from 'clsx';
+import React, { memo, forwardRef } from "react";
+import clsx from "clsx";
 
-import Cell from './Cell';
-import EditCell from './EditCell';
-import { RowRendererProps, SelectedCellProps } from './types';
-import { wrapEvent } from './utils';
+import Cell from "./Cell";
+import EditCell from "./EditCell";
+import { RowRendererProps, SelectedCellProps } from "./types";
+import { wrapEvent } from "./utils";
 
-function Row<R, SR = unknown>({
-  cellRenderer: CellRenderer = Cell,
-  className,
-  eventBus,
-  rowIdx,
-  isRowSelected,
-  copiedCellIdx,
-  draggedOverCellIdx,
-  row,
-  viewportColumns,
-  selectedCellProps,
-  onRowClick,
-  rowClass,
-  setDraggedOverRowIdx,
-  onMouseEnter,
-  top,
-  'aria-rowindex': ariaRowIndex,
-  'aria-selected': ariaSelected,
-  ...props
-}: RowRendererProps<R, SR>, ref: React.Ref<HTMLDivElement>) {
+function Row<R, SR = unknown>(
+  {
+    cellRenderer: CellRenderer = Cell,
+    className,
+    eventBus,
+    rowIdx,
+    isRowSelected,
+    copiedCellIdx,
+    draggedOverCellIdx,
+    row,
+    viewportColumns,
+    selectedCellProps,
+    onRowClick,
+    rowClass,
+    setDraggedOverRowIdx,
+    onMouseEnter,
+    top,
+    "aria-rowindex": ariaRowIndex,
+    "aria-selected": ariaSelected,
+    ...props
+  }: RowRendererProps<R, SR>,
+  ref: React.Ref<HTMLDivElement>
+) {
   function handleDragEnter() {
     setDraggedOverRowIdx?.(rowIdx);
   }
 
   className = clsx(
-    'rdg-row',
-    `rdg-row-${rowIdx % 2 === 0 ? 'even' : 'odd'}`, {
-      'rdg-row-selected': isRowSelected,
-      'rdg-group-row-selected': selectedCellProps?.idx === -1
+    "rdg-row",
+    `rdg-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,
+    {
+      "rdg-row-selected": isRowSelected,
+      "rdg-group-row-selected": selectedCellProps?.idx === -1,
     },
     rowClass?.(row),
     className
@@ -51,9 +55,9 @@ function Row<R, SR = unknown>({
       style={{ top }}
       {...props}
     >
-      {viewportColumns.map(column => {
+      {viewportColumns.map((column) => {
         const isCellSelected = selectedCellProps?.idx === column.idx;
-        if (selectedCellProps?.mode === 'EDIT' && isCellSelected) {
+        if (selectedCellProps?.mode === "EDIT" && isCellSelected) {
           return (
             <EditCell<R, SR>
               key={column.key}
@@ -79,9 +83,19 @@ function Row<R, SR = unknown>({
             isCellSelected={isCellSelected}
             isRowSelected={isRowSelected}
             eventBus={eventBus}
-            dragHandleProps={isCellSelected ? (selectedCellProps as SelectedCellProps).dragHandleProps : undefined}
-            onFocus={isCellSelected ? (selectedCellProps as SelectedCellProps).onFocus : undefined}
-            onKeyDown={isCellSelected ? selectedCellProps!.onKeyDown : undefined}
+            dragHandleProps={
+              isCellSelected
+                ? (selectedCellProps as SelectedCellProps).dragHandleProps
+                : undefined
+            }
+            onFocus={
+              isCellSelected
+                ? (selectedCellProps as SelectedCellProps).onFocus
+                : undefined
+            }
+            onKeyDown={
+              isCellSelected ? selectedCellProps!.onKeyDown : undefined
+            }
             onRowClick={onRowClick}
           />
         );
@@ -90,4 +104,6 @@ function Row<R, SR = unknown>({
   );
 }
 
-export default memo(forwardRef(Row)) as <R, SR = unknown>(props: RowRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>) => JSX.Element;
+export default memo(forwardRef(Row)) as <R, SR = unknown>(
+  props: RowRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>
+) => JSX.Element;

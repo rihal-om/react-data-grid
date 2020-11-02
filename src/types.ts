@@ -12,6 +12,7 @@ export interface Column<TRow, TSummaryRow = unknown> {
   key: string;
   /** Column width. If not specified, it will be determined automatically based on grid width and specified widths of other columns */
   width?: number | string;
+
   /** Minimum column width in px. */
   minWidth?: number;
   /** Maximum column width in px. */
@@ -35,6 +36,7 @@ export interface Column<TRow, TSummaryRow = unknown> {
   sortable?: boolean;
   /** Sets the column sort order to be descending instead of ascending the first time the column is sorted */
   sortDescendingFirst?: boolean;
+
   /** Editor to be rendered when cell of column is being edited. If set, then the column is automatically set to be editable */
   editor?: React.ComponentType<EditorProps<TRow[keyof TRow], TRow, TSummaryRow>>;
   editor2?: React.ComponentType<Editor2Props<TRow, TSummaryRow>>;
@@ -260,4 +262,9 @@ export interface GroupRow<TRow> {
   posInSet: number;
   setSize: number;
   startRowIndex: number;
+}
+
+export interface SuperHeader{
+  name:string;
+  span: number;
 }

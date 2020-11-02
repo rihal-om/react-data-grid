@@ -1,14 +1,14 @@
-import React from 'react';
-import { SelectCellFormatter } from './formatters';
-import { Column } from './types';
-import { stopPropagation } from './utils';
+import React from "react";
+import { SelectCellFormatter } from "./formatters";
+import { Column } from "./types";
+import { stopPropagation } from "./utils";
 
-export const SELECT_COLUMN_KEY = 'select-row';
+export const SELECT_COLUMN_KEY = "select-row";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SelectColumn: Column<any, any> = {
   key: SELECT_COLUMN_KEY,
-  name: '',
+  name: "",
   width: 35,
   maxWidth: 35,
   resizable: false,
@@ -47,5 +47,5 @@ export const SelectColumn: Column<any, any> = {
         onClick={stopPropagation}
       />
     );
-  }
+  },
 };

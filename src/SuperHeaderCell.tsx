@@ -1,7 +1,7 @@
 import React, { createElement } from "react";
 import clsx from "clsx";
 
-import { CalculatedColumn } from "./types";
+import { CalculatedColumn, SuperHeader } from "./types";
 import { HeaderRowProps } from "./HeaderRow";
 import SortableHeaderCell from "./headerCells/SortableHeaderCell";
 import ResizableHeaderCell from "./headerCells/ResizableHeaderCell";
@@ -23,23 +23,30 @@ type SharedHeaderRowProps<R, SR> = Pick<
   "sortColumn" | "sortDirection" | "onSort" | "allRowsSelected"
 >;
 
-export interface HeaderCellProps<R, SR> extends SharedHeaderRowProps<R, SR> {
+export interface superHeaderCellProps<R, SR>
+  extends SharedHeaderRowProps<R, SR> {
   column: CalculatedColumn<R, SR>;
+  superSpecs: SuperHeader;
+  index: number;
+  prevWidth: number;
   onResize: (column: CalculatedColumn<R, SR>, width: number) => void;
   onAllRowsSelectionChange: (checked: boolean) => void;
 }
 
-export default function HeaderCell<R, SR>({
+export default function SuperHeaderCell<R, SR>({
   column,
   onResize,
+  index,
+  prevWidth,
+  superSpecs: superSpecs,
   allRowsSelected,
   onAllRowsSelectionChange,
   sortColumn,
   sortDirection,
   onSort,
-}: HeaderCellProps<R, SR>) {
+}: superHeaderCellProps<R, SR>) {
   function getCell() {
-    if (!column.headerRenderer) return column.name;
+    if (!column.headerRenderer) return superSpecs.name;
 
     return createElement(column.headerRenderer, {
       column,
@@ -62,18 +69,21 @@ export default function HeaderCell<R, SR>({
       </SortableHeaderCell>
     );
   }
+
   const className = clsx("rdg-cell", column.headerCellClass, {
     "rdg-cell-frozen": column.frozen,
     "rdg-cell-frozen-last": column.isLastFrozenColumn,
   });
+
   const style: React.CSSProperties = {
-    width: column.width,
-    left: column.left,
+    width: column.width * superSpecs.span,
+    left: prevWidth * index,
   };
+
   cell = (
     <div
-      role="columnheader"
-      aria-colindex={column.idx + 1}
+      role="column-header"
+      aria-colindex={index + 1}
       aria-sort={
         sortColumn === column.key ? getAriaSort(sortDirection) : undefined
       }

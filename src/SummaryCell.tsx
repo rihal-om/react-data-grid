@@ -1,26 +1,30 @@
-import React, { memo } from 'react';
-import clsx from 'clsx';
+import React, { memo } from "react";
+import clsx from "clsx";
 
-import { CellRendererProps } from './types';
+import { CellRendererProps } from "./types";
 
-type SharedCellRendererProps<R, SR> = Pick<CellRendererProps<R, SR>, 'column'>;
+type SharedCellRendererProps<R, SR> = Pick<CellRendererProps<R, SR>, "column">;
 
 interface SummaryCellProps<R, SR> extends SharedCellRendererProps<R, SR> {
   row: SR;
 }
 
-function SummaryCell<R, SR>({
-  column,
-  row
-}: SummaryCellProps<R, SR>) {
-  const { summaryFormatter: SummaryFormatter, width, left, summaryCellClass } = column;
+function SummaryCell<R, SR>({ column, row }: SummaryCellProps<R, SR>) {
+  const {
+    summaryFormatter: SummaryFormatter,
+    width,
+    left,
+    summaryCellClass,
+  } = column;
   const className = clsx(
-    'rdg-cell',
+    "rdg-cell",
     {
-      'rdg-cell-frozen': column.frozen,
-      'rdg-cell-frozen-last': column.isLastFrozenColumn
+      "rdg-cell-frozen": column.frozen,
+      "rdg-cell-frozen-last": column.isLastFrozenColumn,
     },
-    typeof summaryCellClass === 'function' ? summaryCellClass(row) : summaryCellClass
+    typeof summaryCellClass === "function"
+      ? summaryCellClass(row)
+      : summaryCellClass
   );
 
   return (
@@ -35,4 +39,6 @@ function SummaryCell<R, SR>({
   );
 }
 
-export default memo(SummaryCell) as <R, SR>(props: SummaryCellProps<R, SR>) => JSX.Element;
+export default memo(SummaryCell) as <R, SR>(
+  props: SummaryCellProps<R, SR>
+) => JSX.Element;

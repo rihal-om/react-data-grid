@@ -53,9 +53,12 @@ export function getColumnMetrics<R, SR>(metrics: Metrics<R, SR>): ColumnMetrics<
     }
 
     return column;
+
   });
 
-  columns.sort(({ key: aKey, frozen: frozenA }, { key: bKey, frozen: frozenB }) => {
+
+
+   columns.sort(({ key: aKey, frozen: frozenA }, { key: bKey, frozen: frozenB }) => {
     // Sort select column first:
     if (aKey === SELECT_COLUMN_KEY) return -1;
     if (bKey === SELECT_COLUMN_KEY) return 1;
@@ -124,6 +127,7 @@ export function getColumnMetrics<R, SR>(metrics: Metrics<R, SR>): ColumnMetrics<
     totalColumnWidth: totalWidth,
     groupBy
   };
+
 }
 
 function getSpecifiedWidth<R, SR>(

@@ -1,47 +1,50 @@
-import React, { forwardRef, memo, useRef } from 'react';
-import clsx from 'clsx';
+import React, { forwardRef, memo, useRef } from "react";
+import clsx from "clsx";
 
-import { CellRendererProps } from './types';
-import { wrapEvent } from './utils';
-import { useCombinedRefs } from './hooks';
+import { CellRendererProps } from "./types";
+import { wrapEvent } from "./utils";
+import { useCombinedRefs } from "./hooks";
 
-function Cell<R, SR>({
-  className,
-  column,
-  isCellSelected,
-  isCopied,
-  isDraggedOver,
-  isRowSelected,
-  row,
-  rowIdx,
-  eventBus,
-  dragHandleProps,
-  onRowClick,
-  onFocus,
-  onKeyDown,
-  onClick,
-  onDoubleClick,
-  onContextMenu,
-  ...props
-}: CellRendererProps<R, SR>, ref: React.Ref<HTMLDivElement>) {
+function Cell<R, SR>(
+  {
+    className,
+    column,
+    isCellSelected,
+    isCopied,
+    isDraggedOver,
+    isRowSelected,
+    row,
+    rowIdx,
+    eventBus,
+    dragHandleProps,
+    onRowClick,
+    onFocus,
+    onKeyDown,
+    onClick,
+    onDoubleClick,
+    onContextMenu,
+    ...props
+  }: CellRendererProps<R, SR>,
+  ref: React.Ref<HTMLDivElement>
+) {
   const cellRef = useRef<HTMLDivElement>(null);
 
   const { cellClass } = column;
   className = clsx(
-    'rdg-cell',
+    "rdg-cell",
     {
-      'rdg-cell-frozen': column.frozen,
-      'rdg-cell-frozen-last': column.isLastFrozenColumn,
-      'rdg-cell-selected': isCellSelected,
-      'rdg-cell-copied': isCopied,
-      'rdg-cell-dragged-over': isDraggedOver
+      "rdg-cell-frozen": column.frozen,
+      "rdg-cell-frozen-last": column.isLastFrozenColumn,
+      "rdg-cell-selected": isCellSelected,
+      "rdg-cell-copied": isCopied,
+      "rdg-cell-dragged-over": isDraggedOver,
     },
-    typeof cellClass === 'function' ? cellClass(row) : cellClass,
+    typeof cellClass === "function" ? cellClass(row) : cellClass,
     className
   );
 
   function selectCell(openEditor?: boolean) {
-    eventBus.dispatch('SelectCell', { idx: column.idx, rowIdx }, openEditor);
+    eventBus.dispatch("SelectCell", { idx: column.idx, rowIdx }, openEditor);
   }
 
   function handleClick() {
@@ -58,7 +61,7 @@ function Cell<R, SR>({
   }
 
   function onRowSelectionChange(checked: boolean, isShiftClick: boolean) {
-    eventBus.dispatch('SelectRow', { rowIdx, checked, isShiftClick });
+    eventBus.dispatch("SelectRow", { rowIdx, checked, isShiftClick });
   }
 
   return (
@@ -70,7 +73,7 @@ function Cell<R, SR>({
       className={className}
       style={{
         width: column.width,
-        left: column.left
+        left: column.left,
       }}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
@@ -98,4 +101,6 @@ function Cell<R, SR>({
   );
 }
 
-export default memo(forwardRef(Cell)) as <R, SR = unknown>(props: CellRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>) => JSX.Element;
+export default memo(forwardRef(Cell)) as <R, SR = unknown>(
+  props: CellRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>
+) => JSX.Element;

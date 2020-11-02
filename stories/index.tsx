@@ -18,7 +18,7 @@ import HeaderFilters from './demos/HeaderFilters';
 import ColumnsReordering from './demos/ColumnsReordering';
 import RowsReordering from './demos/RowsReordering';
 import Grouping from './demos/Grouping';
-
+import ReactDataGridSheet from './demos/simpleDemo'
 // @ts-expect-error
 if (typeof ResizeObserver === 'undefined') {
   // @ts-expect-error
@@ -38,4 +38,5 @@ storiesOf('Demos', module)
   .add('Header Filters', () => <HeaderFilters />)
   .add('Columns Reordering', () => <ColumnsReordering />)
   .add('Rows Reordering', () => <RowsReordering />)
-  .add('Grouping', () => <Grouping />);
+  .add('Grouping', () => <Grouping />)
+  .add('Simple Demo', () => <ReactDataGridSheet />);
