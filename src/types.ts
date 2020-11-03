@@ -267,4 +267,6 @@ export interface GroupRow<TRow> {
 export interface SuperHeader{
   name:string;
   span: number;
+  textPlace?: "left" | "center";
+  value?: number | string | undefined
 }

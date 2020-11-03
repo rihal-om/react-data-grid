@@ -51,60 +51,67 @@ export default function ReactDataGridSheet() {
     (): Column<Row>[] => [
       {
         key: "Date",
-        name: "Date",
+        name: "",
       },
       {
-        key: "title",
-        name: "Title",
+        key: "gas-surface-scheduled",
+        name: "",
+        editable: true,
       },
       {
-        key: "title1",
-        name: "Title1",
+        key: "gas-surface-unscheduled",
+        name: "",
+        editable: true,
       },
       {
-        key: "complete",
-        name: "COMPLETE",
+        key: "gas-subsurface-unscheduled",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "gas-subsurface-unscheduled",
+        name: "",
+        editable: true,
       },
     ],
     []
   );
 
-  const superColumn: SuperHeader[][] = [
+  const superHeader: SuperHeader[][] = [
     [
       {
         name: "",
         span: 1,
       },
       {
-        name: "Forecast",
-        span: 3,
+        name: "Gas Surface Deferments (MM m³/d)",
+        span: 2,
+      },
+      {
+        name: "Gas Surface Deferments (MM m³/d)",
+        span: 2,
+        textPlace: "center",
       },
     ],
     [
+      {
+        name: "",
+        span: 1,
+      },
       {
         name: "Scheduled",
-        span: 2,
-      },
-      {
-        name: "UnScheduled",
-        span: 2,
-      },
-    ],
-    [
-      {
-        name: "DATE",
         span: 1,
       },
       {
-        name: "TITLE",
+        name: "Unscheduled",
         span: 1,
       },
       {
-        name: "COMPLETE",
+        name: "Scheduled",
         span: 1,
       },
       {
-        name: "VIEW",
+        name: "Unscheduled",
         span: 1,
       },
     ],
@@ -140,7 +147,7 @@ export default function ReactDataGridSheet() {
   return (
     <DataGrid
       columns={columns}
-      superHeader={superColumn}
+      superHeader={superHeader}
       rows={rows}
       ref={gridRef}
       onRowsUpdate={handleRowUpdate}

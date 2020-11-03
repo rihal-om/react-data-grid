@@ -78,37 +78,62 @@ function HeaderRow<R, K extends keyof R, SR>({
   } else {
     return (
       <div>
-        {superHeader.map((header) => (
-          <div
-            role="superHeader"
-            aria-rowindex={1} // aria-rowindex is 1 based
-            className="rdg-header-row"
-          >
-            {header.map((subHeader, i, arr) => {
-              var prevWidth;
-              if (i > 0) {
-                prevWidth = arr[i - 1].span;
-              } else {
-                prevWidth = arr[i].span;
-              }
-              return (
-                <SuperHeaderCell<R, SR>
-                  key={subHeader.name}
-                  prevWidth={prevWidth * columns[0].width}
-                  column={columns[0]}
-                  index={i}
-                  superSpecs={subHeader}
-                  onResize={onColumnResize}
-                  allRowsSelected={allRowsSelected}
-                  onAllRowsSelectionChange={handleAllRowsSelectionChange}
-                  onSort={onSort}
-                  sortColumn={sortColumn}
-                  sortDirection={sortDirection}
-                />
-              );
-            })}
-          </div>
-        ))}
+        {superHeader.map((header) => {
+          var leftSum = 0; // this variable is only to get the sum of left for the positioning of the grid elements
+          return (
+            <div
+              role="superHeader"
+              aria-rowindex={1} // aria-rowindex is 1 based
+              className="rdg-header-row"
+            >
+              {header.map((subHeader, i, arr) => {
+                var left;
+                if (i == 0) {
+                  left = 0;
+                } else if (i == 1) {
+                  left = arr[i - 1].span * columns[0].width;
+                } else {
+                  left = arr[i - 1].span * columns[1].width;
+                }
+                if (i == 0) {
+                  leftSum += left;
+                  return (
+                    <SuperHeaderCell<R, SR>
+                      key={subHeader.name}
+                      left={leftSum}
+                      column={columns[0]}
+                      index={i}
+                      superSpecs={subHeader}
+                      onResize={onColumnResize}
+                      allRowsSelected={allRowsSelected}
+                      onAllRowsSelectionChange={handleAllRowsSelectionChange}
+                      onSort={onSort}
+                      sortColumn={sortColumn}
+                      sortDirection={sortDirection}
+                    />
+                  );
+                } else {
+                  leftSum += left;
+                  return (
+                    <SuperHeaderCell<R, SR>
+                      key={subHeader.name}
+                      left={leftSum}
+                      column={columns[1]}
+                      index={i}
+                      superSpecs={subHeader}
+                      onResize={onColumnResize}
+                      allRowsSelected={allRowsSelected}
+                      onAllRowsSelectionChange={handleAllRowsSelectionChange}
+                      onSort={onSort}
+                      sortColumn={sortColumn}
+                      sortDirection={sortDirection}
+                    />
+                  );
+                }
+              })}
+            </div>
+          );
+        })}
       </div>
     );
   }

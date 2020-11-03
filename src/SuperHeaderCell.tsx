@@ -28,7 +28,7 @@ export interface superHeaderCellProps<R, SR>
   column: CalculatedColumn<R, SR>;
   superSpecs: SuperHeader;
   index: number;
-  prevWidth: number;
+  left: number;
   onResize: (column: CalculatedColumn<R, SR>, width: number) => void;
   onAllRowsSelectionChange: (checked: boolean) => void;
 }
@@ -37,7 +37,7 @@ export default function SuperHeaderCell<R, SR>({
   column,
   onResize,
   index,
-  prevWidth,
+  left,
   superSpecs: superSpecs,
   allRowsSelected,
   onAllRowsSelectionChange,
@@ -77,7 +77,8 @@ export default function SuperHeaderCell<R, SR>({
 
   const style: React.CSSProperties = {
     width: column.width * superSpecs.span,
-    left: prevWidth * index,
+    left: left,
+    textAlign: superSpecs.textPlace,
   };
 
   cell = (
@@ -85,7 +86,7 @@ export default function SuperHeaderCell<R, SR>({
       role="column-header"
       aria-colindex={index + 1}
       aria-sort={
-        sortColumn === column.key ? getAriaSort(sortDirection) : undefined
+        sortColumn === superSpecs.name ? getAriaSort(sortDirection) : undefined
       }
       className={className}
       style={style}
