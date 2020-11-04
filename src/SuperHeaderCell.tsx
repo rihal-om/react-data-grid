@@ -46,6 +46,9 @@ export default function SuperHeaderCell<R, SR>({
   onSort,
 }: superHeaderCellProps<R, SR>) {
   function getCell() {
+    //giving the priority for the value instead of the name
+    if (!column.headerRenderer && superSpecs.value != undefined)
+      return superSpecs.value;
     if (!column.headerRenderer) return superSpecs.name;
 
     return createElement(column.headerRenderer, {
