@@ -9,18 +9,16 @@ import React, { useState, useRef, useCallback, useMemo } from "react";
 
 interface Row {
   Date: string;
-  title: string | number;
-  what: string;
-  title3: string;
-  title1: string | number;
-  complete: string;
+  col1: string | number;
+  col2: string;
+  col3: string;
+  col4: string | number;
+  col5: string;
 }
 
 //dummy function just to make a radom date
-function randomDate(start: any, end: any, startHour: any, endHour: any) {
+function randomDate(start: any, end: any) {
   var date = new Date(+start + Math.random() * (end - start));
-  var hour = (startHour + Math.random() * (endHour - startHour)) | 0;
-  date.setHours(hour);
   return date;
 }
 
@@ -29,12 +27,12 @@ function createRows(numberOfRows: number): Row[] {
 
   for (let i = 0; i < numberOfRows; i++) {
     rows[i] = {
-      Date: randomDate(i, i + 2, i + 4, i + 8).toLocaleString(),
-      title: `Task ${i}`,
-      what: "why",
-      title3: "hacks",
-      title1: `Task ${i + 1}`,
-      complete: (i + 10).toString(),
+      Date: randomDate(i, i + 2).toLocaleString(),
+      col1: `Task ${i}`,
+      col2: "why",
+      col3: "hacks",
+      col4: `Task ${i + 1}`,
+      col5: (i + 10).toString(),
     };
   }
 
@@ -54,66 +52,92 @@ export default function ReactDataGridSheet() {
         name: "",
       },
       {
-        key: "gas-surface-scheduled",
+        key: "col1",
         name: "",
         editable: true,
       },
       {
-        key: "gas-surface-unscheduled",
+        key: "col2",
         name: "",
         editable: true,
       },
       {
-        key: "gas-subsurface-unscheduled",
+        key: "col3",
         name: "",
         editable: true,
       },
       {
-        key: "gas-subsurface-unscheduled",
+        key: "col4",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col1",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col2",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col3",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col4",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col1",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col2",
+        name: "",
+        editable: true,
+      },
+      {
+        key: "col3",
         name: "",
         editable: true,
       },
     ],
     []
   );
+  const fields = [...Array(12).fill(0)];
 
   const superHeader: SuperHeader[][] = [
     [
+      { name: "", span: 1 },
       {
-        name: "",
-        span: 1,
-      },
-      {
-        name: "Gas Surface Deferments (MM m³/d)",
-        span: 2,
-      },
-      {
-        name: "Gas Surface Deferments (MM m³/d)",
-        span: 2,
+        name: "we are trying some of the functions here",
+        span: fields.length * 2,
         textPlace: "center",
       },
     ],
     [
-      {
-        name: "",
-        span: 1,
-      },
-      {
-        name: "Scheduled",
-        span: 1,
-      },
-      {
-        name: "Unscheduled",
-        span: 1,
-      },
-      {
-        name: "Scheduled",
-        span: 1,
-      },
-      {
-        name: "Unscheduled",
-        span: 1,
-      },
+      { name: "Field", span: 1, textPlace: "center" },
+      ...fields.map((f) => ({
+        name: f.id,
+        span: 2,
+        textPlace: "center" as "center",
+      })),
+    ],
+    [
+      { name: "", span: 1 },
+      ...Array(fields.length * 2)
+        .fill("")
+        .map((_, i) => ({
+          name: i % 2 == 0 ? `Sch${i}` : `UnSch${i}`,
+          value: i % 2 == 0 ? "Sch" : "UnSch",
+          span: 1,
+          textPlace: "center" as "center",
+        })),
     ],
   ];
   const handleRowUpdate = useCallback(
@@ -150,6 +174,7 @@ export default function ReactDataGridSheet() {
       superHeader={superHeader}
       rows={rows}
       ref={gridRef}
+      headerRowHeight={30}
       onRowsUpdate={handleRowUpdate}
       selectedRows={selectedRows}
       onSelectedRowsChange={setSelectedRows}

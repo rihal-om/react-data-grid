@@ -77,13 +77,16 @@ function HeaderRow<R, K extends keyof R, SR>({
     );
   } else {
     return (
-      <div>
-        {superHeader.map((header) => {
+      <div
+        role="superHeaderWrapper"
+        aria-rowindex={1} // aria-rowindex is 1 based
+      >
+        {superHeader.map((header, i) => {
           var leftSum = 0; // this variable is only to get the sum of left for the positioning of the grid elements
           return (
             <div
               role="superHeader"
-              aria-rowindex={1} // aria-rowindex is 1 based
+              aria-rowindex={i + 1} // aria-rowindex is 1 based
               className="rdg-header-row"
             >
               {header.map((subHeader, i, arr) => {

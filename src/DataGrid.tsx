@@ -282,7 +282,8 @@ function DataGrid<R, K extends keyof R, SR>(
   const headerRowsCount = enableFilters ? 2 : 1;
   const summaryRowsCount = summaryRows?.length ?? 0;
   const totalHeaderHeight =
-    headerRowHeight + (enableFilters ? headerFiltersHeight : 0);
+    headerRowHeight * (superHeader ? superHeader.length : 1) +
+    (enableFilters ? headerFiltersHeight : 0);
   const clientHeight =
     gridHeight - totalHeaderHeight - summaryRowsCount * rowHeight;
   const isSelectable =
