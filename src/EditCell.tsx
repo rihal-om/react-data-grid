@@ -1,36 +1,47 @@
-import React, { forwardRef, useState, useCallback } from 'react';
-import clsx from 'clsx';
+import React, { forwardRef, useState, useCallback } from "react";
+import clsx from "clsx";
 
-import { EditorContainer, EditorContainer2, EditorPortal } from './editors';
-import { CellRendererProps, SharedEditorContainerProps, SharedEditor2Props } from './types';
-import { useCombinedRefs } from './hooks';
+import { EditorContainer, EditorContainer2, EditorPortal } from "./editors";
+import {
+  CellRendererProps,
+  SharedEditorContainerProps,
+  SharedEditor2Props,
+} from "./types";
+import { useCombinedRefs } from "./hooks";
 
-type SharedCellRendererProps<R, SR> = Pick<CellRendererProps<R, SR>,
-| 'rowIdx'
-| 'row'
-| 'column'
+type SharedCellRendererProps<R, SR> = Pick<
+  CellRendererProps<R, SR>,
+  "rowIdx" | "row" | "column"
 >;
 
-interface EditCellRendererProps<R, SR> extends SharedCellRendererProps<R, SR>, Omit<React.HTMLAttributes<HTMLDivElement>, 'style' | 'children'> {
+interface EditCellRendererProps<R, SR>
+  extends SharedCellRendererProps<R, SR>,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "style" | "children"> {
   editorPortalTarget: Element;
   editorContainerProps: SharedEditorContainerProps;
   editor2Props: SharedEditor2Props<R>;
 }
 
-function EditCell<R, SR>({
-  className,
-  column,
-  row,
-  rowIdx,
-  editorPortalTarget,
-  editorContainerProps,
-  editor2Props,
-  onKeyDown,
-  ...props
-}: EditCellRendererProps<R, SR>, ref: React.Ref<HTMLDivElement>) {
-  const [dimensions, setDimensions] = useState<{ left: number; top: number } | null>(null);
+function EditCell<R, SR>(
+  {
+    className,
+    column,
+    row,
+    rowIdx,
+    editorPortalTarget,
+    editorContainerProps,
+    editor2Props,
+    onKeyDown,
+    ...props
+  }: EditCellRendererProps<R, SR>,
+  ref: React.Ref<HTMLDivElement>
+) {
+  const [dimensions, setDimensions] = useState<{
+    left: number;
+    top: number;
+  } | null>(null);
 
-  const cellRef = useCallback(node => {
+  const cellRef = useCallback((node) => {
     if (node !== null) {
       const { left, top } = node.getBoundingClientRect();
       setDimensions({ left, top });
@@ -39,20 +50,21 @@ function EditCell<R, SR>({
 
   const { cellClass } = column;
   className = clsx(
-    'rdg-cell',
+    "rdg-cell",
     {
-      'rdg-cell-frozen': column.frozen,
-      'rdg-cell-frozen-last': column.isLastFrozenColumn
+      "rdg-cell-frozen": column.frozen,
+      "rdg-cell-frozen-last": column.isLastFrozenColumn,
     },
-    'rdg-cell-selected',
-    'rdg-cell-editing',
-    typeof cellClass === 'function' ? cellClass(row) : cellClass,
+    "rdg-cell-selected",
+    "rdg-cell-editing",
+    typeof cellClass === "function" ? cellClass(row) : cellClass,
     className
   );
 
   function getCellContent() {
     if (dimensions === null) return;
-    const { scrollTop: docTop, scrollLeft: docLeft } = document.scrollingElement ?? document.documentElement;
+    const { scrollTop: docTop, scrollLeft: docLeft } =
+      document.scrollingElement ?? document.documentElement;
     const { left, top } = dimensions;
     const gridLeft = left + docLeft;
     const gridTop = top + docTop;
@@ -82,11 +94,7 @@ function EditCell<R, SR>({
     );
 
     if (column.editorOptions?.createPortal !== false) {
-      return (
-        <EditorPortal target={editorPortalTarget}>
-          {editor}
-        </EditorPortal>
-      );
+      return <EditorPortal target={editorPortalTarget}>{editor}</EditorPortal>;
     }
 
     return editor;
@@ -101,7 +109,8 @@ function EditCell<R, SR>({
       className={className}
       style={{
         width: column.width,
-        left: column.left
+        left: column.left,
+        textAlign: column.cellAlignment ? column.cellAlignment : "center",
       }}
       onKeyDown={onKeyDown}
       {...props}
@@ -111,4 +120,6 @@ function EditCell<R, SR>({
   );
 }
 
-export default forwardRef(EditCell) as <R, SR = unknown>(props: EditCellRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>) => JSX.Element;
+export default forwardRef(EditCell) as <R, SR = unknown>(
+  props: EditCellRendererProps<R, SR> & React.RefAttributes<HTMLDivElement>
+) => JSX.Element;

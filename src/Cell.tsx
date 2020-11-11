@@ -74,6 +74,7 @@ function Cell<R, SR>(
       style={{
         width: column.width,
         left: column.left,
+        textAlign: column.cellAlignment ? column.cellAlignment : "center",
       }}
       onFocus={onFocus}
       onKeyDown={onKeyDown}

@@ -12,7 +12,8 @@ export interface Column<TRow, TSummaryRow = unknown> {
   key: string;
   /** Column width. If not specified, it will be determined automatically based on grid width and specified widths of other columns */
   width?: number | string;
-
+  /** this will decide which alignment for the cells */
+  cellAlignment?:  "center" | "left" | "right"
   /** Minimum column width in px. */
   minWidth?: number;
   /** Maximum column width in px. */

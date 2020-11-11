@@ -10,10 +10,10 @@ import React, { useState, useRef, useCallback, useMemo } from "react";
 interface Row {
   Date: string;
   col1: string | number;
-  col2: string;
-  col3: string;
+  col2: string | number;
+  col3: string | number;
   col4: string | number;
-  col5: string;
+  col5: string | number;
 }
 
 //dummy function just to make a radom date
@@ -28,11 +28,11 @@ function createRows(numberOfRows: number): Row[] {
   for (let i = 0; i < numberOfRows; i++) {
     rows[i] = {
       Date: randomDate(i, i + 2).toLocaleString(),
-      col1: `Task ${i}`,
-      col2: "why",
-      col3: "hacks",
-      col4: `Task ${i + 1}`,
-      col5: (i + 10).toString(),
+      col1: 0,
+      col2: 0,
+      col3: 0,
+      col4: 0,
+      col5: 0,
     };
   }
 
@@ -55,11 +55,13 @@ export default function ReactDataGridSheet() {
         key: "col1",
         name: "",
         editable: true,
+        cellAlignment: "center",
       },
       {
         key: "col2",
         name: "",
         editable: true,
+        cellAlignment: "left",
       },
       {
         key: "col3",
@@ -68,49 +70,13 @@ export default function ReactDataGridSheet() {
       },
       {
         key: "col4",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col1",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col2",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col3",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col4",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col1",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col2",
-        name: "",
-        editable: true,
-      },
-      {
-        key: "col3",
         name: "",
         editable: true,
       },
     ],
     []
   );
-  const fields = [...Array(12).fill(0)];
-
+  const fields = [...Array(5).fill(0)];
   const superHeader: SuperHeader[][] = [
     [
       { name: "", span: 1 },
@@ -140,6 +106,9 @@ export default function ReactDataGridSheet() {
         })),
     ],
   ];
+  const allowPercentage = true;
+  // Regex for inputs passed in to the sheet.
+  const regex = allowPercentage ? /^\d+(\.\d*)?\%?$/ : /^\d+(\.\d*)?$/;
   const handleRowUpdate = useCallback(
     ({
       fromRow,
@@ -158,6 +127,20 @@ export default function ReactDataGridSheet() {
         start = Math.min(fromRow, toRow);
         end = Math.max(fromRow, toRow);
       }
+      let values = Object.values(updated);
+      var flag;
+      values.forEach((val) => {
+        if (((val as unknown) as string).match(regex) == null) {
+          flag = true;
+          console.log(val);
+          return;
+        }
+      });
+
+      if (flag == true) {
+        setRows(newRows);
+        return;
+      }
 
       for (let i = start; i <= end; i++) {
         newRows[i] = { ...newRows[i], ...updated };
@@ -168,8 +151,30 @@ export default function ReactDataGridSheet() {
     [rows]
   );
 
+  // const checkCellEditable = ({ column, row }: any) => {
+  //   let values = Object.values(row);
+  //   var flag;
+  //   values.forEach((val) => {
+  //     if (String(val).match(regex) === null) {
+  //       flag = true;
+  //     }
+  //   });
+  //   if (flag == true) {
+  //     column.editable = true;
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
+
   return (
     <DataGrid
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
       columns={columns}
       superHeader={superHeader}
       rows={rows}
