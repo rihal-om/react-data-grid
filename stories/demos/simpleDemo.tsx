@@ -151,22 +151,6 @@ export default function ReactDataGridSheet() {
     [rows]
   );
 
-  // const checkCellEditable = ({ column, row }: any) => {
-  //   let values = Object.values(row);
-  //   var flag;
-  //   values.forEach((val) => {
-  //     if (String(val).match(regex) === null) {
-  //       flag = true;
-  //     }
-  //   });
-  //   if (flag == true) {
-  //     column.editable = true;
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
-
   return (
     <DataGrid
       style={{

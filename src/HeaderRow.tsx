@@ -96,13 +96,15 @@ function HeaderRow<R, K extends keyof R, SR>({
                 } else if (i == 1) {
                   left = arr[i - 1].span * columns[0].width;
                 } else {
-                  left = arr[i - 1].span * columns[1].width;
+                  left =
+                    arr[i - 1].span *
+                    (columns[1] ? columns[1].width : columns[0].width);
                 }
                 if (i == 0) {
                   leftSum += left;
                   return (
                     <SuperHeaderCell<R, SR>
-                      key={subHeader.name}
+                      key={subHeader.name + i}
                       left={leftSum}
                       column={columns[0]}
                       index={i}
@@ -119,7 +121,7 @@ function HeaderRow<R, K extends keyof R, SR>({
                   leftSum += left;
                   return (
                     <SuperHeaderCell<R, SR>
-                      key={subHeader.name}
+                      key={subHeader.name + i}
                       left={leftSum}
                       column={columns[1]}
                       index={i}

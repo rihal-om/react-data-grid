@@ -268,6 +268,6 @@ export interface GroupRow<TRow> {
 export interface SuperHeader{
   name:string;
   span: number;
-  textPlace?: "left" | "center";
+  textAlign?: "center"|"left"|"right";
   value?: number | string | undefined
 }
