@@ -1,6 +1,6 @@
 {
   "name": "@yahya.saidi/super-header-react-data-grid",
-  "version": "7.0.4-canary.26",
+  "version": "7.0.5-canary.26",
   "license": "MIT",
   "description": "Excel-like grid component built with React, with editors, keyboard navigation, copy & paste, and the like",
   "keywords": [

@@ -81,7 +81,7 @@ export default function SuperHeaderCell<R, SR>({
   const style: React.CSSProperties = {
     width: column.width * superSpecs.span,
     left: left,
-    textAlign: superSpecs ? superSpecs.textAlign : "center",
+    textAlign: superSpecs.textAlign ? superSpecs.textAlign : "center",
   };
 
   cell = (

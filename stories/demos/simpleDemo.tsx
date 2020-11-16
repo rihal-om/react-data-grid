@@ -83,11 +83,10 @@ export default function ReactDataGridSheet() {
       {
         name: "we are trying some of the functions here",
         span: fields.length * 2,
-        textPlace: "center",
       },
     ],
     [
-      { name: "Field", span: 1, textPlace: "center" },
+      { name: "Field", span: 1 },
       ...fields.map((f) => ({
         name: f.id,
         span: 2,
@@ -102,7 +101,6 @@ export default function ReactDataGridSheet() {
           name: i % 2 == 0 ? `Sch${i}` : `UnSch${i}`,
           value: i % 2 == 0 ? "Sch" : "UnSch",
           span: 1,
-          textPlace: "center" as "center",
         })),
     ],
   ];
